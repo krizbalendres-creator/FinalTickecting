@@ -1,0 +1,46 @@
+@model IEnumerable<BoholBusTicketing.Core.Models.Municipality>
+
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<h1 class="page-title">📍 Municipalities & Barangays</h1>
+
+<div class="row">
+    @foreach (var municipality in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card" style="border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #3498DB, #2C3E50); color: white;">
+                    <h5 class="mb-0">📍 @municipality.Name</h5>
+                </div>
+                <div class="card-body">
+                    <h6 style="color: #7F8C8D;">Barangays: @(municipality.Barangays?.Count ?? 0)</h6>
+                    @if (municipality.Barangays != null && municipality.Barangays.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var barangay in municipality.Barangays.OrderBy(b => b.Name))
+                            {
+                                <li class="list-group-item" style="border: none; padding: 8px 0;">
+                                    🏘️ @barangay.Name
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No barangays found</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <h4>ℹ️ No locations available</h4>
+        <p>Please check back later.</p>
+    </div>
+}

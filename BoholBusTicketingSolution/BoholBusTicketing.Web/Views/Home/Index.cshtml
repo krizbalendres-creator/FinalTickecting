@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="page-title">🚌 Welcome to Bohol Bus Ticketing System</h1>
+    
+    <p class="lead" style="margin-bottom: 40px; color: #7F8C8D;">
+        Book your bus tickets conveniently and travel safely across Bohol
+    </p>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 2.5rem;">🎫</h5>
+                    <h6 class="card-subtitle mb-2">Easy Booking</h6>
+                    <p class="card-text">Book tickets in just a few clicks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 2.5rem;">💰</h5>
+                    <h6 class="card-subtitle mb-2">Fair Prices</h6>
+                    <p class="card-text">Transparent pricing with auto-calculation</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 2.5rem;">📍</h5>
+                    <h6 class="card-subtitle mb-2">Multiple Routes</h6>
+                    <p class="card-text">Explore all municipalities and barangays</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 2.5rem;">⚡</h5>
+                    <h6 class="card-subtitle mb-2">Fast & Reliable</h6>
+                    <p class="card-text">Quick confirmation and safe travels</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px;">
+        <h3 style="color: #2C3E50; margin-bottom: 20px;">Get Started</h3>
+        <a class="btn btn-primary btn-lg" asp-controller="Ticket" asp-action="Index" style="margin-right: 10px;">
+            🎫 Book Your Ticket Now
+        </a>
+        <a class="btn btn-outline-secondary btn-lg" asp-controller="Location" asp-action="Index">
+            📍 Explore Routes
+        </a>
+    </div>
+</div>

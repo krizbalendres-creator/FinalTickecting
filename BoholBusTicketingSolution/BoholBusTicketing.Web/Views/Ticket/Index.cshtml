@@ -1,0 +1,175 @@
+@{
+    ViewData["Title"] = "Book Ticket";
+}
+
+<h1 class="page-title">🎫 Book Your Ticket</h1>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card" style="border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div class="card-body">
+                <form id="bookingForm">
+                    <!-- From Barangay -->
+                    <div class="mb-3">
+                        <label for="fromBarangay" class="form-label">📍 From Barangay</label>
+                        <select class="form-control form-select" id="fromBarangay" required>
+                            <option value="">-- Select Origin --</option>
+                            @if (ViewBag.Barangays != null)
+                            {
+                                @foreach (var barangay in ViewBag.Barangays)
+                                {
+                                    <option value="@barangay.Id">@barangay.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- To Barangay -->
+                    <div class="mb-3">
+                        <label for="toBarangay" class="form-label">📍 To Barangay</label>
+                        <select class="form-control form-select" id="toBarangay" required>
+                            <option value="">-- Select Destination --</option>
+                            @if (ViewBag.Barangays != null)
+                            {
+                                @foreach (var barangay in ViewBag.Barangays)
+                                {
+                                    <option value="@barangay.Id">@barangay.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Fare Summary -->
+                    <div class="alert alert-info" id="fareSummary" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Distance</h6>
+                                <h5 id="distanceDisplay">-- km</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Estimated Fare</h6>
+                                <h5 id="fareDisplay" style="color: #E74C3C;">₱ --</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Fields -->
+                    <input type="hidden" id="distance" value="0" />
+                    <input type="hidden" id="fare" value="0" />
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary flex-fill" onclick="calculateFare()">
+                            📊 Calculate Fare
+                        </button>
+                        <button type="button" class="btn btn-success flex-fill" onclick="bookTicket()">
+                            ✅ Confirm Booking
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="successMessage" class="alert alert-success" style="display: none; margin-top: 20px;">
+    <h4>✅ Success!</h4>
+    <p id="successText"></p>
+</div>
+
+<div id="errorMessage" class="alert alert-danger" style="display: none; margin-top: 20px;">
+    <h4>❌ Error</h4>
+    <p id="errorText"></p>
+</div>
+
+@section Scripts {
+    <script>
+        function calculateFare() {
+            const fromId = document.getElementById('fromBarangay').value;
+            const toId = document.getElementById('toBarangay').value;
+
+            if (!fromId || !toId) {
+                showError('Please select both origin and destination');
+                return;
+            }
+
+            if (fromId === toId) {
+                showError('Origin and destination cannot be the same');
+                return;
+            }
+
+            fetch('/Ticket/CalculateFare', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fromBarangayId: parseInt(fromId),
+                    toBarangayId: parseInt(toId)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('distance').value = data.distance;
+                    document.getElementById('fare').value = data.fare;
+                    document.getElementById('distanceDisplay').textContent = data.distance + ' km';
+                    document.getElementById('fareDisplay').textContent = '₱ ' + data.fare.toFixed(2);
+                    document.getElementById('fareSummary').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                } else {
+                    showError(data.message);
+                }
+            })
+            .catch(error => showError(error.message));
+        }
+
+        function bookTicket() {
+            const fromId = document.getElementById('fromBarangay').value;
+            const toId = document.getElementById('toBarangay').value;
+            const distance = document.getElementById('distance').value;
+            const fare = document.getElementById('fare').value;
+
+            if (!fromId || !toId || distance == 0) {
+                showError('Please calculate fare first');
+                return;
+            }
+
+            fetch('/Ticket/BookTicket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fromBarangayId: parseInt(fromId),
+                    toBarangayId: parseInt(toId),
+                    distance: parseFloat(distance),
+                    fare: parseFloat(fare)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('Ticket #' + data.ticketId + ' booked successfully!');
+                    document.getElementById('bookingForm').reset();
+                    document.getElementById('fareSummary').style.display = 'none';
+                } else {
+                    showError(data.message);
+                }
+            })
+            .catch(error => showError(error.message));
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            document.getElementById('successText').textContent = message;
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+    </script>
+}
