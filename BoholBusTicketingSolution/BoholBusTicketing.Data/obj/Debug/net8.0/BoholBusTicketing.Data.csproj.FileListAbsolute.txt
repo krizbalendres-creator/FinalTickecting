@@ -1,0 +1,5 @@
+C:\Users\rober\OneDrive\KENT\SCHOOL\2nd year\FinalTickecting\BoholBusTicketingSolution\BoholBusTicketing.Data\obj\Debug\net8.0\BoholBusTicketing.Data.csproj.AssemblyReference.cache
+C:\Users\rober\OneDrive\KENT\SCHOOL\2nd year\FinalTickecting\BoholBusTicketingSolution\BoholBusTicketing.Data\obj\Debug\net8.0\BoholBusTicketing.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rober\OneDrive\KENT\SCHOOL\2nd year\FinalTickecting\BoholBusTicketingSolution\BoholBusTicketing.Data\obj\Debug\net8.0\BoholBusTicketing.Data.AssemblyInfoInputs.cache
+C:\Users\rober\OneDrive\KENT\SCHOOL\2nd year\FinalTickecting\BoholBusTicketingSolution\BoholBusTicketing.Data\obj\Debug\net8.0\BoholBusTicketing.Data.AssemblyInfo.cs
+C:\Users\rober\OneDrive\KENT\SCHOOL\2nd year\FinalTickecting\BoholBusTicketingSolution\BoholBusTicketing.Data\obj\Debug\net8.0\BoholBusTicketing.Data.csproj.CoreCompileInputs.cache
